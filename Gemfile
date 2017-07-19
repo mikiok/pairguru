@@ -13,6 +13,8 @@ gem "jquery-rails"
 gem "sass-rails"
 gem "sqlite3"
 gem "uglifier"
+gem "json"
+gem 'sidekiq'
 
 group :development do
   gem "better_errors"

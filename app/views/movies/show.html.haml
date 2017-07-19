@@ -1,5 +1,33 @@
-%h1= movie.title
+%img.img-rounded{ src: @poster, width: "200px" }
+%h1= @apiMovie["title"]
 .jumbotron
-  = movie.description
+  = @apiMovie["plot"]
+  <br>
+  <b>Rating:</b> 
+  = @apiMovie["rating"]
 - if user_signed_in?
-  %p= link_to 'Email me details about this movie', send_info_movie_path(movie), class: 'btn btn-sm btn-default'
+  %p= link_to 'Email me details about this movie', send_info_movie_path(@movie), class: 'btn btn-sm btn-default'
+  <br>
+
+<h2> Comments </h2>
+.jumbotron
+  %table.table.table-striped
+    %tbody
+      %table 
+        <ul>
+        - @comments.each do |comment|
+          %tr
+          <li>
+          %strong
+            = User.find(comment.user_id).name
+            - if current_user.id == comment.user_id
+              = link_to('Delete', comment_path(comment), method: :delete, data: { confirm: 'Are you sure?' })
+          <br>
+          &emsp;
+          = comment.content
+          </li>
+        </ul>
+= form_for :comment, :url => {:id => @movie.id, :controller => 'comments', :action => 'create'} do |f|
+  = label_tag :comment_name, "Create comment", :class => 'header_label'
+  = f.text_field :content
+  = f.submit

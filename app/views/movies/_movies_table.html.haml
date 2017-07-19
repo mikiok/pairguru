@@ -4,12 +4,12 @@
       %tr
         %td= i + 1
         %td
-          %img.img-rounded{ src: movie.cover }
+          %img.img-rounded{ src: 'https://pairguru-api.herokuapp.com' + movie["poster"], width: "200px"}
         %td
           %h4
-            = link_to movie.title, movie_path(movie)
+            = link_to movie["title"], movie_path(i+1)
           %p
             %strong
-              =link_to movie.genre.name, movies_genre_path(movie.genre)
-            = ' (' + movie.released_at.to_s + ')'
-          %p= movie.description
+              Rating:
+            = movie["rating"]
+          %p= movie["plot"]

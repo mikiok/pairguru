@@ -17,13 +17,20 @@ Before pairing:
  ### Task 1 - consume api
  We would like to have more information about the movie in movie show and index page. The information should come from pairguru api (e.g. https://pairguru-api.herokuapp.com/api/v1/movies/Godfather). We should display movie poster (e.g. https://pairguru-api.herokuapp.com/godfather.jpg), rating and plot overview. We can't store this data in database.
 
+ Solution: All the functions are in Movies controller. I do individual requests for every movie and because of that it takes too long to charge everything at index page. At show I do one individual request for the movie to the API.
+
  ### Task 2 - build api
  We would like to share our movies via api. We want to return list of all out movies (id and title). Besides that we would like to for user to get specific movie by id.
 
  After a while developers started asking us to extend our results by adding genre details. They want genre id, name and number of movies in this genre to be returned along with the movies. We don't want to break api for existing users or make them to fetch more data.
 
+ Solution: I created a new controller in app/controllers/api/v1/movies_controller.rb
+
  ### Task 3 - long running tasks
  We have two tasks that run too long and users leave our page frustrated: emailing details about movie (button in movie show) and emailing movies csv export (in navigation). We should make it that user doesn't have to wait for page load and still get emails.
+
+ Solution: I used deliver_later instead of deliver_now because it does it asynchronously and user doesn't have to wait while the email is being sent and can do other things.
+ And to export movies I used Gem 'sidekiq' to call the method asynchronously.
 
  ### Task 4 - brackets validation
  Our moderators are adding parentheses and brackets to the titles.
@@ -36,12 +43,16 @@ Before pairing:
 
  Hint: It can't be solved via regular expressions.
 
+ Solution: The function is in movie model
+
  ### Task 5 - comments
  Our users want to comment on movies. Let's add feature that allows them to do that.
 
  We should have new comment form under the movie description and all the comments listed below that.
 
  Additionally - one user should be allowed to leave only one comment to the movie. He can create another only if he deletes previous one.
+
+ Solution: I created a new model called Comment
 
  ### Task 6 - sql query (dependent on 5)
  We want to reward our users for commenting movies. The idea is to create page with top commenters this week.
@@ -51,3 +62,5 @@ Before pairing:
  This page will be very popular. We don't want to spam database with many queries in one pageview.
 
  Hint: It can be solved by using ActiveRecord.
+
+ Solution: The function is in User model and gives you a hash with top commenters and number of comments. the url is http://localhost:3000/best_commenters.

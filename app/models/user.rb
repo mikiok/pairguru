@@ -24,4 +24,15 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
   validates :phone_number, format: { with: /\A[+]?\d+(?>[- .]\d+)*\z/, allow_nil: true }
+
+  has_many :comments, dependent: :destroy
+
+  def self.top_ten
+  	commenters = Comment.select(:user_id).where('created_at >= ?', 1.week.ago).group("user_id").limit(10).order('count_id desc').count('id')
+  	# SELECT  COUNT("comments"."id") AS count_id, "comments"."user_id" AS comments_user_id FROM "comments" 
+  	# 	WHERE (created_at >= '2017-07-11 18:13:03.358146') 
+  	# 	GROUP BY "comments"."user_id" 
+  	# 	ORDER BY count_id desc 
+  	# 	LIMIT ?  [["LIMIT", 10]]
+  end
 end

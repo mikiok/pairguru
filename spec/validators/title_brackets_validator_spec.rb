@@ -85,3 +85,30 @@
 #     @title = title
 #   end
 # end
+
+describe Movie do 
+
+    describe '#TitleBracketsValidator' do
+        it "has valid title" do
+            title = "The Fellowship of the Ring [Lord of The Rings {Peter Jackson}] (2012)"
+            expect(Movie.validate_brackets? title).to be true
+        end
+        it "has invalid title" do
+            title = "The Fellowship of the Ring [Lord of The Rings {Peter Jackson}] (2012"
+            expect(Movie.validate_brackets? title).to be false
+        end
+    end
+
+    describe '#PairBrackets' do
+        it "are pair" do
+            opening_bracket = "("
+            closing_bracket = ")"
+            expect(Movie.are_pair? opening_bracket, closing_bracket).to be true
+        end
+        it "are not pair" do
+            opening_bracket = "("
+            closing_bracket = "]"
+            expect(Movie.are_pair? opening_bracket, closing_bracket).to be false
+        end
+    end
+end
